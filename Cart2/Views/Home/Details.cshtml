@@ -2,33 +2,92 @@
 
 @{
     ViewBag.Title = "Details";
+    ViewBag.Total = 0;
+    ViewBag.Classification = "";
 }
 
 <h2>Details</h2>
 
+<p>
+    @Html.ActionLink("Create New", "CreateItem", new { personId = ViewBag.PersonId })
+</p>
+
+<table class="table table-responsive-sm">
+    <tr>
+        <th>Title</th>
+        <th>Weight</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditItem", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "DeleteItem", new { id = item.Id }) |
+            </td>
+        </tr>
+
+        ViewBag.Total += item.Weight;
+    }
+</table>
+
 <div>
-    <h4>Item</h4>
-    <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
+        <dt>Total Cost:</dt>
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @if (ViewBag.Total > 50)
+            {
+                <span>N/A</span>
+            }
+            else if (ViewBag.Total > 30)
+            {
+                @(ViewBag.Total * 10)
+            }
+            else if (ViewBag.Total > 20)
+            {
+                @(ViewBag.Total * 15)
+            }
+            else if (ViewBag.Total > 10)
+            {
+                @(ViewBag.Total * 20)
+            }
+            else
+            {
+                @(ViewBag.Total * 25)
+            }
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Weight)
-        </dt>
-
+        <dt>Classification:</dt>
         <dd>
-            @Html.DisplayFor(model => model.Weight)
+            @if (ViewBag.Total > 50)
+            {
+                <span>Reject</span>
+            }
+            else if (ViewBag.Total > 30)
+            {
+                <span>Heavy</span>
+            }
+            else if (ViewBag.Total > 20)
+            {
+                <span>Large</span>
+            }
+            else if (ViewBag.Total > 10)
+            {
+                <span>Medium</span>
+            }
+            else
+            {
+                <span>Small</span>
+            }
         </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

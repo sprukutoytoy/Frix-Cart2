@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "CreatePerson")
 </p>
 <table class="table table-responsive-sm">
     <tr>
@@ -21,12 +21,12 @@
     {
         <tr>
             <td>
-                <b>@Html.DisplayFor(modelItem => person.Name)</b> (@Html.DisplayFor(modelItem => person.Number))
+                <b>@Html.DisplayFor(modelPerson=> person.Name)</b> (@Html.DisplayFor(modelPerson => person.Number))
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = person.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = person.Id }) |
-                @Html.ActionLink("List Items", "Details", new { id = person.Id }) |
+                @Html.ActionLink("Edit", "EditPerson", new { id = person.Id }) |
+                @Html.ActionLink("Delete", "DeletePerson", new { id = person.Id }) |
+                @Html.ActionLink("List Items", "Details", new { personId = person.Id }) |
             </td>
         </tr>
     }

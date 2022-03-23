@@ -11,7 +11,7 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">BRAND</a>
+                <a class="navbar-brand" href="#">JOHN BRIAN TIGLAO</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -20,11 +20,6 @@
                         <li class="nav-item">
                             @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
                         </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("Item", "Index", "Items", null, new { @class = "nav-link" })
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })
                         </li>
                     </ul>
                 </div>
@@ -35,10 +30,6 @@
 
     <div class="container body-content">
         @RenderBody()
-        @*<hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>*@
     </div>
 
     @Scripts.Render("~/bundles/jquery")

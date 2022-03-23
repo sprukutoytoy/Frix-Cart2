@@ -19,30 +19,37 @@ namespace Cart2.Controllers
             return View(context.Persons.ToList());
         }
 
-        public ActionResult Details(int? id)
+        public ActionResult Details(int personId)
         {
-            if (id == null)
+            //Item item = context.Items.Find(personId);
+            //Item item = context.Items.FirstOrDefault(x => x.PersonID == personId);
+
+            IQueryable<Item> items = context.Items;
+            if (personId > 0)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                items = items.Where(p => p.PersonID == personId);
             }
-            Item item = context.Items.Find(id);
-            if (item == null)
+
+
+            if (items == null)
             {
                 return HttpNotFound();
             }
-            return View(item);
+
+            ViewBag.PersonId = personId;
+
+            return View(items);
         }
 
         #region Create
-        public ActionResult Create()
+        public ActionResult CreatePerson()
         {
-            ViewBag.PersonID = new SelectList(context.Persons, "Id", "Name");
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("CreatePerson")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Number")] Person person)
+        public ActionResult CreatePerson([Bind(Include = "Name,Number")] Person person)
         {
             if (ModelState.IsValid)
             {
@@ -53,10 +60,30 @@ namespace Cart2.Controllers
 
             return View(person);
         }
+
+        public ActionResult CreateItem(int personId)
+        {
+            Item item = new Item() { PersonID = personId };
+            return View(item);
+        }
+
+        [HttpPost, ActionName("CreateItem")]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateItem([Bind(Include = "Title,Weight,PersonId")] Item item)
+        {
+            if (ModelState.IsValid)
+            {
+                context.Items.Add(item);
+                context.SaveChanges();
+                return RedirectToAction("Details", new { personId = item.PersonID });
+            }
+
+            return View(item);
+        }
         #endregion
 
         #region Edit
-        public ActionResult Edit(int? id)
+        public ActionResult EditPerson(int? id)
         {
             if (id == null)
             {
@@ -71,9 +98,9 @@ namespace Cart2.Controllers
             return View(person);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("EditPerson")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Number")] Person person)
+        public ActionResult EditPerson([Bind(Include = "Id,Name,Number")] Person person)
         {
             if (ModelState.IsValid)
             {
@@ -83,10 +110,38 @@ namespace Cart2.Controllers
             }
             return View(person);
         }
+
+        public ActionResult EditItem(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Item item = context.Items.Find(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(item);
+        }
+
+        [HttpPost, ActionName("EditItem")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditItem([Bind(Include = "Id,Title,Weight,PersonID")] Item item)
+        {
+            if (ModelState.IsValid)
+            {
+                context.Entry(item).State = EntityState.Modified;
+                context.SaveChanges();
+                return RedirectToAction("Details", new { personId = item.PersonID });
+            }
+            return View(item);
+        }
         #endregion
 
         #region Delete
-        public ActionResult Delete(int? id)
+        public ActionResult DeletePerson(int? id)
         {
             if (id == null)
             {
@@ -100,14 +155,38 @@ namespace Cart2.Controllers
             return View(person);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeletePerson")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeletePersonConfirmed(int id)
         {
             Person person = context.Persons.Find(id);
             context.Persons.Remove(person);
             context.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult DeleteItem(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Item item = context.Items.Find(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            return View(item);
+        }
+
+        [HttpPost, ActionName("DeleteItem")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteItem(int id)
+        {
+            Item item = context.Items.Find(id);
+            context.Items.Remove(item);
+            context.SaveChanges();
+            return RedirectToAction("Details", new { personId = item.PersonID });
         }
         #endregion
 

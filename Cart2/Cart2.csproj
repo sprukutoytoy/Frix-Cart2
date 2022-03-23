@@ -184,11 +184,14 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Create.cshtml" />
-    <Content Include="Views\Home\Delete.cshtml" />
+    <Content Include="Views\Home\CreatePerson.cshtml" />
+    <Content Include="Views\Home\DeletePerson.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
-    <Content Include="Views\Home\Edit.cshtml" />
+    <Content Include="Views\Home\EditPerson.cshtml" />
     <Content Include="Views\Items\Index.cshtml" />
+    <Content Include="Views\Home\CreateItem.cshtml" />
+    <Content Include="Views\Home\DeleteItem.cshtml" />
+    <Content Include="Views\Home\EditItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
